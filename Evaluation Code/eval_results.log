@@ -1,0 +1,478 @@
+Using device: cuda
+
+--- Loading Hugging Face datasets ---
+Preprocessing disagreement dataset: politifact
+INFO: Applied heuristic mapping (['agree', 'true', '0', 'agreed'] -> 0, others -> 1) for politifact.
+INFO: Calculated pos_weight for politifact (label 1): 0.2416
+Preprocessing disagreement dataset: hyperpartisan
+INFO: Applied heuristic mapping (['agree', 'true', '0', 'agreed'] -> 0, others -> 1) for hyperpartisan.
+INFO: Calculated pos_weight for hyperpartisan (label 1): 0.5848
+Preprocessing GoEmotions dataset: goemotions
+INFO: Calculated balanced class weights for goemotions (Emotion).
+
+--- Loading local CSV datasets from directory: . ---
+Attempting to load CSV: train_bd_mt.csv as 'train_bd_mt'
+INFO: Assuming 'train_bd_mt' is DISAGREEMENT.
+Preprocessing disagreement dataset: train_bd_mt
+INFO: Applied heuristic mapping (['agree', 'true', '0', 'agreed'] -> 0, others -> 1) for train_bd_mt.
+INFO: Calculated pos_weight for train_bd_mt (label 1): 11.2476
+Attempting to load CSV: train_fnc_agdgonly.csv as 'train_fnc_agdgonly'
+INFO: Assuming 'train_fnc_agdgonly' is DISAGREEMENT.
+Preprocessing disagreement dataset: train_fnc_agdgonly
+INFO: Applied heuristic mapping (['agree', 'true', '0', 'agreed'] -> 0, others -> 1) for train_fnc_agdgonly.
+INFO: Calculated pos_weight for train_fnc_agdgonly (label 1): 4.3786
+Attempting to load CSV: test_bd_mt.csv as 'test_bd_mt'
+INFO: Assuming 'test_bd_mt' is DISAGREEMENT.
+Preprocessing disagreement dataset: test_bd_mt
+INFO: Applied heuristic mapping (['agree', 'true', '0', 'agreed'] -> 0, others -> 1) for test_bd_mt.
+INFO: Calculated pos_weight for test_bd_mt (label 1): 16.2029
+Attempting to load CSV: test_fnc_agdgonly.csv as 'test_fnc_agdgonly'
+INFO: Assuming 'test_fnc_agdgonly' is DISAGREEMENT.
+Preprocessing disagreement dataset: test_fnc_agdgonly
+INFO: Applied heuristic mapping (['agree', 'true', '0', 'agreed'] -> 0, others -> 1) for test_fnc_agdgonly.
+INFO: Calculated pos_weight for test_fnc_agdgonly (label 1): 2.7303
+Loaded 4 local CSV datasets successfully.
+
+--- Datasets Loaded Summary ---
+- politifact: 10269 samples, Task: disagreement, Label dist: {1: 8271, 0: 1998}
+- hyperpartisan: 645 samples, Task: disagreement, Label dist: {1: 407, 0: 238}
+- goemotions: 43410 samples, Task: emotion, Label dist: {27: 12823, 0: 4130, 4: 2596, 1: 2244, 3: 2138, 15: 2096, 7: 1772, 10: 1651, 2: 1547, 18: 1533, 6: 1268, 9: 1028, 17: 1013, 20: 974, 5: 966, 25: 874, 26: 751, 13: 700, 22: 698, 11: 580, 8: 543, 14: 510, 24: 404, 12: 248, 19: 105, 23: 96, 16: 65, 21: 57}
+- train_bd_mt: 101239 samples, Task: disagreement, Label dist: {0: 92973, 1: 8266}
+- train_fnc_agdgonly: 4518 samples, Task: disagreement, Label dist: {0: 3678, 1: 840}
+- test_bd_mt: 28746 samples, Task: disagreement, Label dist: {0: 27075, 1: 1671}
+- test_fnc_agdgonly: 2600 samples, Task: disagreement, Label dist: {0: 1903, 1: 697}
+
+--- Creating PyTorch Datasets and DataLoaders ---
+Processing dataset for DataLoader: politifact (10269 samples)
+Processing dataset for DataLoader: hyperpartisan (645 samples)
+Processing dataset for DataLoader: goemotions (43410 samples)
+Processing dataset for DataLoader: train_bd_mt (101239 samples)
+Processing dataset for DataLoader: train_fnc_agdgonly (4518 samples)
+Processing dataset for DataLoader: test_bd_mt (28746 samples)
+Creating TEST dataloader for: test_bd_mt
+Processing dataset for DataLoader: test_fnc_agdgonly (2600 samples)
+Creating TEST dataloader for: test_fnc_agdgonly
+
+--- Training Setup ---
+Batch Size: 32
+Epochs: 10
+LR: 1e-05
+WD: 0.01
+Dropout: 0.3
+Scheduler Patience: 3
+Total training dataset loaders: 5
+Validation datasets: ['politifact', 'hyperpartisan', 'goemotions', 'train_bd_mt', 'train_fnc_agdgonly']
+Test datasets: ['test_bd_mt', 'test_fnc_agdgonly']
+Initializing multitask model with base: roberta-base
+RoBERTa hidden size: 768
+Initialized disagreement head (output: 1 logit, dropout: 0.3)
+Initialized emotion head (output: 28 logits, dropout: 0.3)
+
+--- Starting Training ---
+
+--- Epoch 1/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.2695
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.5102
+
+Training on goemotions...
+Avg Loss for goemotions: 2.6473
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.5436
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 1.1370
+
+Epoch 1 Average Training Loss: 1.0215
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.3765, Acc: 0.3759, F1: 0.4545
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.5695, Acc: 0.5814, F1: 0.7158
+Evaluating on validation set: goemotions
+  - Val Loss: 3.1081, Acc: 0.1295, F1: 0.1039
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.3877, Acc: 0.9590, F1: 0.7904
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.9038, Acc: 0.6515, F1: 0.4652
+
+Epoch 1 Average Validation Loss: 1.0691
+Val loss improved (inf --> 1.0691). Saving model to multitask_model_best.pth...
+
+--- Epoch 2/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.2709
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.4855
+
+Training on goemotions...
+Avg Loss for goemotions: 1.9306
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.3405
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.9346
+
+Epoch 2 Average Training Loss: 0.7924
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.4555, Acc: 0.2653, F1: 0.2218
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.5426, Acc: 0.5271, F1: 0.6115
+Evaluating on validation set: goemotions
+  - Val Loss: 2.8698, Acc: 0.1829, F1: 0.1556
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.4040, Acc: 0.9764, F1: 0.8670
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.7589, Acc: 0.7522, F1: 0.5484
+
+Epoch 2 Average Validation Loss: 1.0062
+Val loss improved (1.0691 --> 1.0062). Saving model to multitask_model_best.pth...
+
+--- Epoch 3/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.2657
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.4469
+
+Training on goemotions...
+Avg Loss for goemotions: 1.6319
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.2211
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.8986
+
+Epoch 3 Average Training Loss: 0.6928
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.5263, Acc: 0.2605, F1: 0.1881
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.5526, Acc: 0.4729, F1: 0.4035
+Evaluating on validation set: goemotions
+  - Val Loss: 2.5490, Acc: 0.2225, F1: 0.2081
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.2028, Acc: 0.9880, F1: 0.9279
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.7778, Acc: 0.7920, F1: 0.5727
+
+Epoch 3 Average Validation Loss: 0.9217
+Val loss improved (1.0062 --> 0.9217). Saving model to multitask_model_best.pth...
+
+--- Epoch 4/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.2522
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.3752
+
+Training on goemotions...
+Avg Loss for goemotions: 1.4348
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.1368
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.7784
+
+Epoch 4 Average Training Loss: 0.5955
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.5432, Acc: 0.2702, F1: 0.2156
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.4689, Acc: 0.5969, F1: 0.6750
+Evaluating on validation set: goemotions
+  - Val Loss: 2.6220, Acc: 0.2421, F1: 0.2549
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.1994, Acc: 0.9901, F1: 0.9405
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.7939, Acc: 0.7721, F1: 0.5598
+
+Epoch 4 Average Validation Loss: 0.9255
+Val loss did not improve. Epochs w/o improve: 1
+
+--- Epoch 5/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.2329
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.3164
+
+Training on goemotions...
+Avg Loss for goemotions: 1.2809
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.0941
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.7312
+
+Epoch 5 Average Training Loss: 0.5311
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.4370, Acc: 0.4684, F1: 0.5684
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.4867, Acc: 0.5891, F1: 0.6131
+Evaluating on validation set: goemotions
+  - Val Loss: 2.3764, Acc: 0.2908, F1: 0.3073
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.1964, Acc: 0.9776, F1: 0.8744
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.7372, Acc: 0.7544, F1: 0.5664
+
+Epoch 5 Average Validation Loss: 0.8467
+Val loss improved (0.9217 --> 0.8467). Saving model to multitask_model_best.pth...
+
+--- Epoch 6/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.1958
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.2027
+
+Training on goemotions...
+Avg Loss for goemotions: 1.1364
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.0801
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.6871
+
+Epoch 6 Average Training Loss: 0.4604
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.5703, Acc: 0.2975, F1: 0.2694
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.5156, Acc: 0.5271, F1: 0.4602
+Evaluating on validation set: goemotions
+  - Val Loss: 2.4492, Acc: 0.2700, F1: 0.2939
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.2034, Acc: 0.9937, F1: 0.9612
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.7602, Acc: 0.7710, F1: 0.5660
+
+Epoch 6 Average Validation Loss: 0.8997
+Val loss did not improve. Epochs w/o improve: 1
+
+--- Epoch 7/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.1647
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.1350
+
+Training on goemotions...
+Avg Loss for goemotions: 1.0018
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.0459
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.6855
+
+Epoch 7 Average Training Loss: 0.4066
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 1.1150, Acc: 0.2288, F1: 0.1151
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.9768, Acc: 0.4109, F1: 0.2549
+Evaluating on validation set: goemotions
+  - Val Loss: 2.7161, Acc: 0.2298, F1: 0.2570
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.3428, Acc: 0.9931, F1: 0.9567
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 1.1036, Acc: 0.8053, F1: 0.5869
+
+Epoch 7 Average Validation Loss: 1.2508
+Val loss did not improve. Epochs w/o improve: 2
+
+--- Epoch 8/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.1571
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.1800
+
+Training on goemotions...
+Avg Loss for goemotions: 0.8875
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.0327
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.6894
+
+Epoch 8 Average Training Loss: 0.3893
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 0.7880, Acc: 0.2722, F1: 0.2226
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 0.9692, Acc: 0.4109, F1: 0.2245
+Evaluating on validation set: goemotions
+  - Val Loss: 3.0263, Acc: 0.2313, F1: 0.2528
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.3115, Acc: 0.9931, F1: 0.9574
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 0.9923, Acc: 0.7832, F1: 0.5702
+
+Epoch 8 Average Validation Loss: 1.2174
+Val loss did not improve. Epochs w/o improve: 3
+
+--- Epoch 9/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.1252
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.1575
+
+Training on goemotions...
+Avg Loss for goemotions: 0.7883
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.0301
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.6441
+
+Epoch 9 Average Training Loss: 0.3490
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 1.1438, Acc: 0.2463, F1: 0.1541
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 1.3210, Acc: 0.4419, F1: 0.2500
+Evaluating on validation set: goemotions
+  - Val Loss: 2.7562, Acc: 0.2725, F1: 0.2995
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.3988, Acc: 0.9933, F1: 0.9585
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 1.3743, Acc: 0.7821, F1: 0.5835
+
+Epoch 9 Average Validation Loss: 1.3988
+Val loss did not improve. Epochs w/o improve: 4
+
+--- Epoch 10/10 ---
+Training on 5 dataset loaders sequentially...
+
+Training on politifact...
+Avg Loss for politifact: 0.1609
+
+Training on hyperpartisan...
+Avg Loss for hyperpartisan: 0.5778
+
+Training on goemotions...
+Avg Loss for goemotions: 0.6563
+
+Training on train_bd_mt...
+Avg Loss for train_bd_mt: 0.0195
+
+Training on train_fnc_agdgonly...
+Avg Loss for train_fnc_agdgonly: 0.5642
+
+Epoch 10 Average Training Loss: 0.3957
+
+--- Validation ---
+Evaluating on validation set: politifact
+  - Val Loss: 1.4003, Acc: 0.2313, F1: 0.1084
+Evaluating on validation set: hyperpartisan
+  - Val Loss: 1.8256, Acc: 0.4264, F1: 0.1591
+Evaluating on validation set: goemotions
+  - Val Loss: 2.1749, Acc: 0.4569, F1: 0.4693
+Evaluating on validation set: train_bd_mt
+  - Val Loss: 0.3747, Acc: 0.9943, F1: 0.9648
+Evaluating on validation set: train_fnc_agdgonly
+  - Val Loss: 1.2728, Acc: 0.7898, F1: 0.5815
+
+Epoch 10 Average Validation Loss: 1.4097
+Val loss did not improve. Epochs w/o improve: 5
+
+--- Training Finished ---
+
+Loading best model state from multitask_model_best.pth...
+Initializing multitask model with base: roberta-base
+RoBERTa hidden size: 768
+Initialized disagreement head (output: 1 logit, dropout: 0.3)
+Initialized emotion head (output: 28 logits, dropout: 0.3)
+Best model loaded successfully.
+
+--- Final Test Set Evaluation & Plotting ---
+
+--- Evaluating Test Set: test_bd_mt ---
+
+Overall Metrics for Test Set: test_bd_mt (Task: disagreement)
+  - Accuracy:  0.9695
+  - F1 Score:  0.7786 (binary avg)
+  - Precision: 0.6728 (binary avg)
+  - Recall:    0.9240 (binary avg)
+Error generating confusion matrix for test_bd_mt (disagreement): list indices must be integers or slices, not numpy.float64
+Saved ROC curve plot to roc_curve_disagreement_test_bd_mt.png
+Skipping disorder type plot for test_bd_mt: No results provided.
+NOTE: Requires data labelled by disorder type and modified evaluation logic.
+
+--- Evaluating Test Set: test_fnc_agdgonly ---
+
+Overall Metrics for Test Set: test_fnc_agdgonly (Task: disagreement)
+  - Accuracy:  0.6296
+  - F1 Score:  0.4475 (binary avg)
+  - Precision: 0.3728 (binary avg)
+  - Recall:    0.5595 (binary avg)
+Error generating confusion matrix for test_fnc_agdgonly (disagreement): list indices must be integers or slices, not numpy.float64
+Saved ROC curve plot to roc_curve_disagreement_test_fnc_agdgonly.png
+Skipping disorder type plot for test_fnc_agdgonly: No results provided.
+NOTE: Requires data labelled by disorder type and modified evaluation logic.
+
+--- Script Finished ---
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 18397809
+Cluster: viking2.yor.alces.network
+User/Group: sr1907/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 02:09:44
+CPU Efficiency: 24.89% of 08:41:08 core-walltime
+Job Wall-clock time: 02:10:17
+Memory Utilized: 1.88 GB
+Memory Efficiency: 11.77% of 16.00 GB
+ Requested wall clock time: 1-02:30:00
+    Actual wall clock time: 02:10:17
+Wall clock time efficiency: 8.2%
+           Job queued time: 04:15:59

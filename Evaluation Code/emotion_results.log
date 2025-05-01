@@ -1,0 +1,233 @@
+Using device: cuda
+
+--- Loading Hugging Face emotion datasets ---
+Loading GoEmotions...
+Preprocessing GoEmotions dataset: goemotions
+INFO: Calculated balanced class weights for goemotions (Emotion). Weights tensor shape: torch.Size([28])
+
+--- Loading local CSV emotion datasets from directory: . ---
+Skipping CSV 'train_bd_mt.csv', does not appear to be an emotion dataset.
+Skipping CSV 'train_fnc_agdgonly.csv', does not appear to be an emotion dataset.
+Skipping CSV 'test_bd_mt.csv', does not appear to be an emotion dataset.
+Skipping CSV 'test_fnc_agdgonly.csv', does not appear to be an emotion dataset.
+Loaded 0 local CSV datasets successfully.
+
+--- Emotion Datasets Loaded Summary ---
+- goemotions: 43410 samples, Label dist: {27: 12823, 0: 4130, 4: 2596, 1: 2244, 3: 2138, 15: 2096, 7: 1772, 10: 1651, 2: 1547, 18: 1533, 6: 1268, 9: 1028, 17: 1013, 20: 974, 5: 966, 25: 874, 26: 751, 13: 700, 22: 698, 11: 580, 8: 543, 14: 510, 24: 404, 12: 248, 19: 105, 23: 96, 16: 65, 21: 57}, Weight Info: Class Weights Tensor (shape: torch.Size([28]))
+
+--- Final Class Weights Summary ---
+- goemotions: class_weights tensor shape = torch.Size([28])
+
+--- Creating PyTorch Datasets and DataLoaders for Emotion Task ---
+Processing dataset for DataLoader: goemotions (43410 samples)
+Creating TRAIN dataloader for: goemotions (34728 samples)
+Creating VALIDATION dataloader for: goemotions (8682 samples)
+
+--- Training Setup (Emotion Task) ---
+Batch Size: 32
+Epochs: 10
+Learning Rate: 1e-05
+Weight Decay: 0.01
+Dropout Rate: 0.3
+Scheduler Patience: 3
+Total training dataset loaders: 1
+Validation datasets: ['goemotions']
+Test datasets: []
+Initializing single-task emotion model with base: roberta-base
+RoBERTa hidden size: 768
+Initialized emotion head (output: 28 logits, dropout: 0.3)
+
+--- Starting Training (Emotion Task) ---
+
+--- Epoch 1/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 2.7296
+
+Epoch 1 Average Training Loss (across 1 valid loaders): 2.7296
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 2.0909, Acc: 0.3863, F1: 0.3222, Prec: 0.4783, Rec: 0.3863
+
+Epoch 1 Average Validation Loss (across 1 valid loaders): 2.0909
+Validation loss improved (inf --> 2.0909). Saving model to emotion_model_best.pth...
+
+--- Epoch 2/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 1.9110
+
+Epoch 2 Average Training Loss (across 1 valid loaders): 1.9110
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.7353, Acc: 0.4196, F1: 0.3858, Prec: 0.5394, Rec: 0.4196
+
+Epoch 2 Average Validation Loss (across 1 valid loaders): 1.7353
+Validation loss improved (2.0909 --> 1.7353). Saving model to emotion_model_best.pth...
+
+--- Epoch 3/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 1.5962
+
+Epoch 3 Average Training Loss (across 1 valid loaders): 1.5962
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.6309, Acc: 0.4240, F1: 0.3908, Prec: 0.5456, Rec: 0.4240
+
+Epoch 3 Average Validation Loss (across 1 valid loaders): 1.6309
+Validation loss improved (1.7353 --> 1.6309). Saving model to emotion_model_best.pth...
+
+--- Epoch 4/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 1.3923
+
+Epoch 4 Average Training Loss (across 1 valid loaders): 1.3923
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.6300, Acc: 0.4341, F1: 0.4073, Prec: 0.5527, Rec: 0.4341
+
+Epoch 4 Average Validation Loss (across 1 valid loaders): 1.6300
+Validation loss improved (1.6309 --> 1.6300). Saving model to emotion_model_best.pth...
+
+--- Epoch 5/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 1.2375
+
+Epoch 5 Average Training Loss (across 1 valid loaders): 1.2375
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.6633, Acc: 0.4537, F1: 0.4340, Prec: 0.5548, Rec: 0.4537
+
+Epoch 5 Average Validation Loss (across 1 valid loaders): 1.6633
+Validation loss (1.6633) did not improve from best (1.6300). Epochs without improvement: 1
+
+--- Epoch 6/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 1.1064
+
+Epoch 6 Average Training Loss (across 1 valid loaders): 1.1064
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.7078, Acc: 0.4537, F1: 0.4293, Prec: 0.5566, Rec: 0.4537
+
+Epoch 6 Average Validation Loss (across 1 valid loaders): 1.7078
+Validation loss (1.7078) did not improve from best (1.6300). Epochs without improvement: 2
+
+--- Epoch 7/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 0.9797
+
+Epoch 7 Average Training Loss (across 1 valid loaders): 0.9797
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.7853, Acc: 0.4456, F1: 0.4237, Prec: 0.5619, Rec: 0.4456
+
+Epoch 7 Average Validation Loss (across 1 valid loaders): 1.7853
+Validation loss (1.7853) did not improve from best (1.6300). Epochs without improvement: 3
+
+--- Epoch 8/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 0.8663
+
+Epoch 8 Average Training Loss (across 1 valid loaders): 0.8663
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.8777, Acc: 0.4387, F1: 0.4116, Prec: 0.5642, Rec: 0.4387
+
+Epoch 8 Average Validation Loss (across 1 valid loaders): 1.8777
+Validation loss (1.8777) did not improve from best (1.6300). Epochs without improvement: 4
+
+--- Epoch 9/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 0.7054
+
+Epoch 9 Average Training Loss (across 1 valid loaders): 0.7054
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.8768, Acc: 0.4665, F1: 0.4540, Prec: 0.5611, Rec: 0.4665
+
+Epoch 9 Average Validation Loss (across 1 valid loaders): 1.8768
+Validation loss (1.8768) did not improve from best (1.6300). Epochs without improvement: 5
+
+--- Epoch 10/10 ---
+Training on 1 dataset loaders sequentially...
+
+Training on loader 1/1 (Dataset: goemotions)...
+Avg Loss for loader 1 (goemotions): 0.6857
+
+Epoch 10 Average Training Loss (across 1 valid loaders): 0.6857
+
+--- Validation ---
+Evaluating on validation set: goemotions
+Using 'weighted' averaging for metrics.
+  - Val Loss: 1.8938, Acc: 0.4618, F1: 0.4495, Prec: 0.5583, Rec: 0.4618
+
+Epoch 10 Average Validation Loss (across 1 valid loaders): 1.8938
+Validation loss (1.8938) did not improve from best (1.6300). Epochs without improvement: 6
+
+--- Training Finished ---
+
+Loading best emotion model state from emotion_model_best.pth...
+Initializing single-task emotion model with base: roberta-base
+RoBERTa hidden size: 768
+Initialized emotion head (output: 28 logits, dropout: 0.3)
+Best emotion model loaded successfully.
+
+--- Final Test Set Evaluation (Emotion Task) ---
+No test dataloaders found. Skipping final test evaluation.
+
+--- Emotion Script Finished ---
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 18397803
+Cluster: viking2.yor.alces.network
+User/Group: sr1907/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 00:36:08
+CPU Efficiency: 24.83% of 02:25:32 core-walltime
+Job Wall-clock time: 00:36:23
+Memory Utilized: 1.44 GB
+Memory Efficiency: 8.97% of 16.00 GB
+ Requested wall clock time: 1-02:30:00
+    Actual wall clock time: 00:36:23
+Wall clock time efficiency: 2.3%
+           Job queued time: 03:08:23

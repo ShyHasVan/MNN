@@ -1,0 +1,462 @@
+Using device: cuda
+
+--- Loading Hugging Face disagreement datasets ---
+Loading Politifact (liar)...
+Preprocessing disagreement dataset: politifact
+INFO: Applied Politifact numeric mapping (codes [0, 4, 5, -1] -> 1 (Disagree), others -> 0) for politifact.
+INFO: Calculated pos_weight for politifact: 1.2835 (5772 neg / 4497 pos)
+Loading Hyperpartisan News Detection...
+Preprocessing disagreement dataset: hyperpartisan
+INFO: Applied Hyperpartisan mapping ('true' -> 1 (Disagree), 'false' -> 0) for hyperpartisan.
+INFO: Calculated pos_weight for hyperpartisan: 1.7101 (407 neg / 238 pos)
+
+--- Loading local CSV disagreement datasets from directory: . ---
+Attempting to load CSV: train_bd_mt.csv as 'train_bd_mt' (assuming disagreement)
+Preprocessing disagreement dataset: train_bd_mt
+INFO: Renaming text column 'title2_en' to 'text' for train_bd_mt.
+INFO: Applied BD mapping ('agreed' -> 0, 'disagreed' -> 1) for train_bd_mt.
+INFO: Calculated pos_weight for train_bd_mt: 11.2476 (92973 neg / 8266 pos)
+Attempting to load CSV: train_fnc_agdgonly.csv as 'train_fnc_agdgonly' (assuming disagreement)
+Preprocessing disagreement dataset: train_fnc_agdgonly
+INFO: Renaming text column 'Body' to 'text' for train_fnc_agdgonly.
+INFO: Applied FNC mapping ('agree' -> 0, others -> 1 (Disagree)) for train_fnc_agdgonly.
+INFO: Calculated pos_weight for train_fnc_agdgonly: 4.3786 (3678 neg / 840 pos)
+Attempting to load CSV: test_bd_mt.csv as 'test_bd_mt' (assuming disagreement)
+Preprocessing disagreement dataset: test_bd_mt
+INFO: Renaming text column 'title2_en' to 'text' for test_bd_mt.
+INFO: Applied BD mapping ('agreed' -> 0, 'disagreed' -> 1) for test_bd_mt.
+INFO: Calculated pos_weight for test_bd_mt: 16.2029 (27075 neg / 1671 pos)
+Attempting to load CSV: test_fnc_agdgonly.csv as 'test_fnc_agdgonly' (assuming disagreement)
+Preprocessing disagreement dataset: test_fnc_agdgonly
+INFO: Renaming text column 'Body' to 'text' for test_fnc_agdgonly.
+INFO: Applied FNC mapping ('agree' -> 0, others -> 1 (Disagree)) for test_fnc_agdgonly.
+INFO: Calculated pos_weight for test_fnc_agdgonly: 2.7303 (1903 neg / 697 pos)
+Loaded 4 local CSV datasets successfully.
+
+--- Disagreement Datasets Loaded Summary ---
+- politifact: 10269 samples, Label dist: {0: 5772, 1: 4497}, Weight Info: Pos Weight: 1.2835
+- hyperpartisan: 645 samples, Label dist: {0: 407, 1: 238}, Weight Info: Pos Weight: 1.7101
+- train_bd_mt: 101239 samples, Label dist: {0: 92973, 1: 8266}, Weight Info: Pos Weight: 11.2476
+- train_fnc_agdgonly: 4518 samples, Label dist: {0: 3678, 1: 840}, Weight Info: Pos Weight: 4.3786
+- test_bd_mt: 28746 samples, Label dist: {0: 27075, 1: 1671}, Weight Info: Pos Weight: 16.2029
+- test_fnc_agdgonly: 2600 samples, Label dist: {0: 1903, 1: 697}, Weight Info: Pos Weight: 2.7303
+
+--- Final Pos_Weights Summary ---
+- politifact: pos_weight = 1.2835
+- hyperpartisan: pos_weight = 1.7101
+- train_bd_mt: pos_weight = 11.2476
+- train_fnc_agdgonly: pos_weight = 4.3786
+- test_bd_mt: pos_weight = 16.2029
+- test_fnc_agdgonly: pos_weight = 2.7303
+
+--- Creating PyTorch Datasets and DataLoaders for Disagreement Task ---
+Processing dataset for DataLoader: politifact (10269 samples)
+Creating TRAIN dataloader for: politifact (8215 samples)
+Creating VALIDATION dataloader for: politifact (2054 samples)
+Processing dataset for DataLoader: hyperpartisan (645 samples)
+Creating TRAIN dataloader for: hyperpartisan (516 samples)
+Creating VALIDATION dataloader for: hyperpartisan (129 samples)
+Processing dataset for DataLoader: train_bd_mt (101239 samples)
+Creating TRAIN dataloader for: train_bd_mt (80991 samples)
+Creating VALIDATION dataloader for: train_bd_mt (20248 samples)
+Processing dataset for DataLoader: train_fnc_agdgonly (4518 samples)
+Creating TRAIN dataloader for: train_fnc_agdgonly (3614 samples)
+Creating VALIDATION dataloader for: train_fnc_agdgonly (904 samples)
+Processing dataset for DataLoader: test_bd_mt (28746 samples)
+Creating TEST dataloader for: test_bd_mt
+Processing dataset for DataLoader: test_fnc_agdgonly (2600 samples)
+Creating TEST dataloader for: test_fnc_agdgonly
+
+--- Training Setup (Disagreement Task) ---
+Batch Size: 32
+Epochs: 10
+Learning Rate: 1e-05
+Weight Decay: 0.01
+Dropout Rate: 0.3
+Scheduler Patience: 3
+Total training dataset loaders: 4
+Validation datasets: ['politifact', 'hyperpartisan', 'train_bd_mt', 'train_fnc_agdgonly']
+Test datasets: ['test_bd_mt', 'test_fnc_agdgonly']
+Initializing single-task disagreement model with base: roberta-base
+RoBERTa hidden size: 768
+Initialized disagreement head (output: 1 logit, dropout: 0.3)
+
+--- Starting Training (Disagreement Task) ---
+
+--- Epoch 1/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.7600
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.8464
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.5282
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 1.1881
+
+Epoch 1 Average Training Loss (across 4 valid loaders): 0.8306
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.1900, Acc: 0.5677, F1: 0.1685, Prec: 0.5325, Rec: 0.1001
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.8133, Acc: 0.5891, F1: 0.5047, Prec: 0.4576, Rec: 0.5625
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.3762, Acc: 0.9734, F1: 0.8510, Prec: 0.7836, Rec: 0.9310
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.9132, Acc: 0.6748, F1: 0.4712, Prec: 0.3376, Rec: 0.7798
+
+Epoch 1 Average Validation Loss (across 4 valid loaders): 0.8232
+Validation loss improved (inf --> 0.8232). Saving model to disagreement_model_best.pth...
+
+--- Epoch 2/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.7413
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.7665
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.3181
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 1.0250
+
+Epoch 2 Average Training Loss (across 4 valid loaders): 0.7127
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.8395, Acc: 0.5881, F1: 0.2196, Prec: 0.6432, Rec: 0.1324
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.8106, Acc: 0.6357, F1: 0.5053, Prec: 0.5106, Rec: 0.5000
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.3296, Acc: 0.9840, F1: 0.9055, Prec: 0.8739, Rec: 0.9395
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.7013, Acc: 0.7611, F1: 0.5748, Prec: 0.4294, Rec: 0.8690
+
+Epoch 2 Average Validation Loss (across 4 valid loaders): 0.9202
+Validation loss (0.9202) did not improve from best (0.8232). Epochs without improvement: 1
+
+--- Epoch 3/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.7154
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.6913
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.2111
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.8143
+
+Epoch 3 Average Training Loss (across 4 valid loaders): 0.6080
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.7101, Acc: 0.6188, F1: 0.4009, Prec: 0.6422, Rec: 0.2914
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.7737, Acc: 0.6899, F1: 0.5918, Prec: 0.5800, Rec: 0.6042
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.2346, Acc: 0.9839, F1: 0.9066, Prec: 0.8588, Rec: 0.9601
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.7243, Acc: 0.7600, F1: 0.5737, Prec: 0.4282, Rec: 0.8690
+
+Epoch 3 Average Validation Loss (across 4 valid loaders): 0.8607
+Validation loss (0.8607) did not improve from best (0.8232). Epochs without improvement: 2
+
+--- Epoch 4/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.6461
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.5243
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.1302
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.8256
+
+Epoch 4 Average Training Loss (across 4 valid loaders): 0.5315
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.9509, Acc: 0.6032, F1: 0.3180, Prec: 0.6419, Rec: 0.2113
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.0557, Acc: 0.7054, F1: 0.4571, Prec: 0.7273, Rec: 0.3333
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.1938, Acc: 0.9916, F1: 0.9489, Prec: 0.9369, Rec: 0.9613
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.8058, Acc: 0.7666, F1: 0.5703, Prec: 0.4334, Rec: 0.8333
+
+Epoch 4 Average Validation Loss (across 4 valid loaders): 1.0016
+Validation loss (1.0016) did not improve from best (0.8232). Epochs without improvement: 3
+
+--- Epoch 5/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.5907
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.4428
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.0836
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.7300
+
+Epoch 5 Average Training Loss (across 4 valid loaders): 0.4618
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.3609, Acc: 0.6261, F1: 0.4009, Prec: 0.6710, Rec: 0.2859
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.7494, Acc: 0.7519, F1: 0.5789, Prec: 0.7857, Rec: 0.4583
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.1527, Acc: 0.9899, F1: 0.9396, Prec: 0.9161, Rec: 0.9643
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.7451, Acc: 0.7799, F1: 0.5702, Prec: 0.4475, Rec: 0.7857
+
+Epoch 5 Average Validation Loss (across 4 valid loaders): 0.7520
+Validation loss improved (0.8232 --> 0.7520). Saving model to disagreement_model_best.pth...
+
+--- Epoch 6/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.4616
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.3037
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.0492
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.7549
+
+Epoch 6 Average Training Loss (across 4 valid loaders): 0.3923
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 2.3480, Acc: 0.5803, F1: 0.1397, Prec: 0.6796, Rec: 0.0779
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.8516, Acc: 0.6357, F1: 0.0784, Prec: 0.6667, Rec: 0.0417
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.2622, Acc: 0.9932, F1: 0.9576, Prec: 0.9731, Rec: 0.9425
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.9964, Acc: 0.7843, F1: 0.5657, Prec: 0.4520, Rec: 0.7560
+
+Epoch 6 Average Validation Loss (across 4 valid loaders): 1.3645
+Validation loss (1.3645) did not improve from best (0.7520). Epochs without improvement: 1
+
+--- Epoch 7/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.4304
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.2048
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.0475
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.7092
+
+Epoch 7 Average Training Loss (across 4 valid loaders): 0.3480
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 3.3043, Acc: 0.5808, F1: 0.1433, Prec: 0.6792, Rec: 0.0801
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.3787, Acc: 0.6279, F1: 0.2941, Prec: 0.5000, Rec: 0.2083
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.2643, Acc: 0.9933, F1: 0.9590, Prec: 0.9639, Rec: 0.9540
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.9763, Acc: 0.7788, F1: 0.5652, Prec: 0.4452, Rec: 0.7738
+
+Epoch 7 Average Validation Loss (across 4 valid loaders): 1.4809
+Validation loss (1.4809) did not improve from best (0.7520). Epochs without improvement: 2
+
+--- Epoch 8/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.3558
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.1540
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.0245
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.6986
+
+Epoch 8 Average Training Loss (across 4 valid loaders): 0.3082
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 3.0630, Acc: 0.5857, F1: 0.1809, Prec: 0.6714, Rec: 0.1046
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.6700, Acc: 0.6279, F1: 0.2500, Prec: 0.5000, Rec: 0.1667
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.2816, Acc: 0.9929, F1: 0.9560, Prec: 0.9655, Rec: 0.9468
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.9223, Acc: 0.7588, F1: 0.5551, Prec: 0.4224, Rec: 0.8095
+
+Epoch 8 Average Validation Loss (across 4 valid loaders): 1.4842
+Validation loss (1.4842) did not improve from best (0.7520). Epochs without improvement: 3
+
+--- Epoch 9/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.2819
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.1496
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.0293
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.6559
+
+Epoch 9 Average Training Loss (across 4 valid loaders): 0.2792
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 4.5934, Acc: 0.5779, F1: 0.0959, Prec: 0.7667, Rec: 0.0512
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 3.7465, Acc: 0.6279, F1: 0.0000, Prec: 0.0000, Rec: 0.0000
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.6375, Acc: 0.9919, F1: 0.9486, Prec: 0.9908, Rec: 0.9099
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.3287, Acc: 0.7920, F1: 0.5785, Prec: 0.4640, Rec: 0.7679
+
+Epoch 9 Average Validation Loss (across 4 valid loaders): 2.5765
+Validation loss (2.5765) did not improve from best (0.7520). Epochs without improvement: 4
+
+--- Epoch 10/10 ---
+Training on 4 dataset loaders sequentially...
+
+Training on loader 1/4 (Dataset: politifact)...
+Avg Loss for loader 1 (politifact): 0.4731
+
+Training on loader 2/4 (Dataset: hyperpartisan)...
+Avg Loss for loader 2 (hyperpartisan): 0.1045
+
+Training on loader 3/4 (Dataset: train_bd_mt)...
+Avg Loss for loader 3 (train_bd_mt): 0.0083
+
+Training on loader 4/4 (Dataset: train_fnc_agdgonly)...
+Avg Loss for loader 4 (train_fnc_agdgonly): 0.5749
+
+Epoch 10 Average Training Loss (across 4 valid loaders): 0.2902
+
+--- Validation ---
+Evaluating on validation set: politifact
+Using 'binary' averaging for metrics.
+  - Val Loss: 4.8178, Acc: 0.5823, F1: 0.1386, Prec: 0.7113, Rec: 0.0768
+Evaluating on validation set: hyperpartisan
+Using 'binary' averaging for metrics.
+  - Val Loss: 4.9423, Acc: 0.6279, F1: 0.0000, Prec: 0.0000, Rec: 0.0000
+Evaluating on validation set: train_bd_mt
+Using 'binary' averaging for metrics.
+  - Val Loss: 0.4182, Acc: 0.9940, F1: 0.9626, Prec: 0.9752, Rec: 0.9504
+Evaluating on validation set: train_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Val Loss: 1.3261, Acc: 0.7743, F1: 0.5660, Prec: 0.4404, Rec: 0.7917
+
+Epoch 10 Average Validation Loss (across 4 valid loaders): 2.8761
+Validation loss (2.8761) did not improve from best (0.7520). Epochs without improvement: 5
+
+--- Training Finished ---
+
+Loading best disagreement model state from disagreement_model_best.pth...
+Initializing single-task disagreement model with base: roberta-base
+RoBERTa hidden size: 768
+Initialized disagreement head (output: 1 logit, dropout: 0.3)
+Best disagreement model loaded successfully.
+
+--- Final Test Set Evaluation (Disagreement Task) ---
+Evaluating on Test Set: test_bd_mt
+Using 'binary' averaging for metrics.
+  - Test Loss: 0.2955, Acc: 0.9840, F1: 0.8719, Prec: 0.8155, Rec: 0.9366
+Evaluating on Test Set: test_fnc_agdgonly
+Using 'binary' averaging for metrics.
+  - Test Loss: 1.2384, Acc: 0.7150, F1: 0.4287, Prec: 0.4633, Rec: 0.3989
+
+--- Disagreement Script Finished ---
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 18397804
+Cluster: viking2.yor.alces.network
+User/Group: sr1907/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 01:42:15
+CPU Efficiency: 24.90% of 06:50:40 core-walltime
+Job Wall-clock time: 01:42:40
+Memory Utilized: 1.68 GB
+Memory Efficiency: 10.52% of 16.00 GB
+ Requested wall clock time: 1-02:30:00
+    Actual wall clock time: 01:42:40
+Wall clock time efficiency: 6.5%
+           Job queued time: 03:28:01
